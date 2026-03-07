@@ -4667,8 +4667,6 @@ paths:
         example: '{{announcementId}}'
 # Backoffice API - copy these paths and components into your existing Swagger/OpenAPI doc
 # Prefix base path as needed (e.g. /api/backoffice)
-
-paths:
   /api/backoffice/auth/signin:
     post:
       tags:
