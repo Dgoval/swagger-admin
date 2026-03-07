@@ -609,7 +609,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-
   securitySchemes:
     BearerAuth:
       type: http
