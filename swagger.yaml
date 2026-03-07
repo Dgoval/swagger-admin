@@ -614,11 +614,3 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT
-      description: Backoffice access token (Authorization: Bearer &lt;token&gt;)
-
-components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
