@@ -52,6 +52,12 @@ paths:
             example:
               email: caracolasstore@gmail.com
               password: Password@weq112
+  /api/backoffice/auth/signout:
+    post:
+      summary: sign out
+      responses: {}
+      tags:
+        - Auth
   /api/backoffice/auth/forgot-password:
     post:
       summary: forgot-password
@@ -113,6 +119,62 @@ paths:
   /api/backoffice/dashboard:
     get:
       summary: Get Dashboard
+      parameters:
+        - name: 'evaluationsLimit '
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: 'evaluationsPage '
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: 'evaluationsSortBy '
+          in: query
+          schema:
+            type: string
+          example: createdAt
+        - name: 'evaluationsSortOrder '
+          in: query
+          schema:
+            type: string
+          example: desc
+        - name: evaluationsSearch
+          in: query
+          schema:
+            type: string
+          example: Board
+        - name: status
+          in: query
+          schema:
+            type: string
+          example: active
+        - name: clientsLimit
+          in: query
+          schema:
+            type: integer
+          example: '5'
+        - name: 'clientsPage '
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: 'clientsSortBy '
+          in: query
+          schema:
+            type: string
+          example: dateAdded
+        - name: 'clientsSortOrder '
+          in: query
+          schema:
+            type: string
+          example: desc
+        - name: clientsSearch
+          in: query
+          schema:
+            type: string
+          example: a
       responses: {}
       tags:
         - Dashboard
@@ -129,6 +191,32 @@ paths:
   /api/backoffice/dashboard/recent-evaluations:
     get:
       summary: Dashboard Recent evaluations
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: Board
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          example: createdAt
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+          example: desc
       responses: {}
       tags:
         - Dashboard
@@ -137,6 +225,32 @@ paths:
   /api/backoffice/dashboard/recent-clients:
     get:
       summary: Dashboard Recent clients
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: a
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          example: dateAdded
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+          example: desc
       responses: {}
       tags:
         - Dashboard
@@ -329,6 +443,557 @@ paths:
         schema:
           type: string
         example: '{{backofficeUserId}}'
+  /api/backoffice/clients/metrics:
+    get:
+      summary: Client metrics
+      responses: {}
+      tags:
+        - Client management
+      security:
+        - BearerAuth: []
+  /api/backoffice/clients:
+    get:
+      summary: List clients
+      parameters:
+        - name: page
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: '1'
+        - name: limit
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: '20'
+        - name: search
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: a
+        - name: status
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: active
+        - name: sort
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: desc
+        - name: sortBy
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: dateAdded
+      responses: {}
+      tags:
+        - Client management
+      security:
+        - BearerAuth: []
+    post:
+      summary: Add client
+      responses: {}
+      tags:
+        - Client management
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companyName:
+                  type: string
+                contactFirstName:
+                  type: string
+                contactLastName:
+                  type: string
+                contactEmail:
+                  type: string
+                  format: email
+                contactPhone:
+                  type: string
+                  format: utc-millisec
+                loginUrl:
+                  type: string
+                  format: uri
+            example:
+              companyName: Acmeee Corp
+              contactFirstName: John
+              contactLastName: Doe
+              contactEmail: caracolasstore+16@gmail.com
+              contactPhone: '+1234567890'
+              loginUrl: https://app.dgoval.com
+  /api/backoffice/clients/{COMPANY_ID}:
+    get:
+      summary: get client details
+      responses: {}
+      tags:
+        - Client management
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: COMPANY_ID
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{COMPANY_ID}}'
+  /api/backoffice/clients/{COMPANY_ID}/deactivate:
+    post:
+      summary: Deactivate client
+      responses: {}
+      tags:
+        - Client management
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: COMPANY_ID
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{COMPANY_ID}}'
+  /api/backoffice/clients/{COMPANY_ID}/reactivate:
+    post:
+      summary: Reactivate client
+      responses: {}
+      tags:
+        - Client management
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: COMPANY_ID
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{COMPANY_ID}}'
+  /api/backoffice/frameworks:
+    get:
+      summary: List frameworks
+      responses: {}
+      tags:
+        - Framework management
+      security:
+        - BearerAuth: []
+    post:
+      summary: Manually create framework
+      responses: {}
+      tags:
+        - Framework management
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                versionYear:
+                  type: integer
+                sections:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      questions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            text:
+                              type: string
+                            statutoryReference:
+                              type: string
+                            evidence:
+                              type: string
+                            requiredEvidence:
+                              type: boolean
+                            commentRequired:
+                              type: boolean
+            example:
+              name: Governance Framework 2024
+              description: Annual governance assessment
+              versionYear: 2024
+              sections:
+                - title: Section 1
+                  description: Optional section description
+                  questions:
+                    - text: Does the company have a code of conduct?
+                      statutoryReference: ISO 37001
+                      evidence: Document upload
+                      requiredEvidence: true
+                      commentRequired: false
+  /api/backoffice/frameworks/{frameworkId}:
+    get:
+      summary: get framework details
+      responses: {}
+      tags:
+        - Framework management
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: frameworkId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{frameworkId}}'
+    delete:
+      summary: Delete Framework
+      responses: {}
+      tags:
+        - Framework management
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                versionYear:
+                  type: integer
+                sections:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      questions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            text:
+                              type: string
+                            statutoryReference:
+                              type: string
+                            evidence:
+                              type: string
+                            requiredEvidence:
+                              type: boolean
+                            commentRequired:
+                              type: boolean
+            example:
+              name: Governance Framework 2024
+              description: Annual governance assessment
+              versionYear: 2024
+              sections:
+                - title: Section 1
+                  description: Optional section description
+                  questions:
+                    - text: Does the company have a code of conduct?
+                      statutoryReference: ISO 37001
+                      evidence: Document upload
+                      requiredEvidence: true
+                      commentRequired: false
+  /api/backoffice/frameworks/upload:
+    post:
+      summary: admin backoffice upload framework
+      responses: {}
+      tags:
+        - Framework management
+      security:
+        - BearerAuth: []
+  /api/surveys/backoffice/templates:
+    get:
+      summary: List backoffice templates
+      parameters:
+        - name: page
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: '1'
+        - name: limit
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: '20'
+        - name: status
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: PUBLISHED
+        - name: sort
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: desc
+        - name: sortBy
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: updatedAt
+        - name: search
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: a
+        - name: surveyType
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: general
+      responses: {}
+      tags:
+        - Survey template management (Publish to client)
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create backoffice template metadata
+      responses: {}
+      tags:
+        - Survey template management (Publish to client)
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                surveyType:
+                  type: string
+            example:
+              title: Annual Governance Survey
+              description: Standard governance evaluation survey
+              surveyType: general
+  /api/surveys/backoffice/templates/{draftId}/autosave:
+    put:
+      summary: Save draft template
+      responses: {}
+      tags:
+        - Survey template management (Publish to client)
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      position:
+                        type: integer
+                      text:
+                        type: string
+                      type:
+                        type: string
+                      required:
+                        type: boolean
+                      skippable:
+                        type: boolean
+                      options:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            position:
+                              type: integer
+                            label:
+                              type: string
+                            value:
+                              type: string
+            example:
+              questions:
+                - position: 1
+                  text: How would you rate your organization's governance maturity?
+                  type: singleChoice
+                  required: true
+                  skippable: false
+                  options:
+                    - position: 1
+                      label: Low
+                      value: low
+                    - position: 2
+                      label: Medium
+                      value: medium
+                    - position: 3
+                      label: High
+                      value: high
+                - position: 2
+                  text: Please describe your governance structure.
+                  type: longText
+                  required: false
+                  skippable: true
+                - position: 3
+                  text: Board effectiveness rating
+                  type: likert
+                  required: true
+                  skippable: false
+                  likert:
+                    scaleMinLabel: Strongly Disagree
+                    scaleMaxLabel: Strongly Agree
+                    scalePoints: 5
+    parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{draftId}}'
+  /api/surveys/backoffice/templates/{draftId}/publish:
+    post:
+      summary: Publish templates
+      responses: {}
+      tags:
+        - Survey template management (Publish to client)
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      position:
+                        type: integer
+                      text:
+                        type: string
+                      type:
+                        type: string
+                      required:
+                        type: boolean
+                      skippable:
+                        type: boolean
+                      options:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            position:
+                              type: integer
+                            label:
+                              type: string
+                            value:
+                              type: string
+            example:
+              questions:
+                - position: 1
+                  text: How would you rate your organization's governance maturity?
+                  type: singleChoice
+                  required: true
+                  skippable: false
+                  options:
+                    - position: 1
+                      label: Low
+                      value: low
+                    - position: 2
+                      label: Medium
+                      value: medium
+                    - position: 3
+                      label: High
+                      value: high
+                - position: 2
+                  text: Please describe your governance structure.
+                  type: longText
+                  required: false
+                  skippable: true
+                - position: 3
+                  text: Board effectiveness rating
+                  type: likert
+                  required: true
+                  skippable: false
+                  likert:
+                    scaleMinLabel: Strongly Disagree
+                    scaleMaxLabel: Strongly Agree
+                    scalePoints: 5
+    parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{draftId}}'
+  /api/surveys/backoffice/templates/{templateId}/details:
+    get:
+      summary: Preview templates
+      responses: {}
+      tags:
+        - Survey template management (Publish to client)
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: templateId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{templateId}}'
+  /api/surveys/templates/{templateId}/archive:
+    post:
+      summary: Deprecate template
+      responses: {}
+      tags:
+        - Survey template management (Publish to client)
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: templateId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{templateId}}'
+  /api/surveys/templates/{templateId}/unarchive:
+    post:
+      summary: Activate template after deprecation
+      responses: {}
+      tags:
+        - Survey template management (Publish to client)
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: templateId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{templateId}}'
 components:
   securitySchemes:
     BearerAuth:
