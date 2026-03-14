@@ -175,6 +175,11 @@ paths:
           schema:
             type: string
           example: a
+        - name: timeRange
+          in: query
+          schema:
+            type: string
+          example: 7d
       responses: {}
       tags:
         - Dashboard
@@ -443,6 +448,14 @@ paths:
         schema:
           type: string
         example: '{{backofficeUserId}}'
+  /api/backoffice/roles:
+    get:
+      summary: List roles
+      responses: {}
+      tags:
+        - User management
+      security:
+        - BearerAuth: []
   /api/backoffice/clients/metrics:
     get:
       summary: Client metrics
