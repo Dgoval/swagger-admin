@@ -538,10 +538,10 @@ paths:
                   type: string
                   format: uri
             example:
-              companyName: Acmeee Corp
+              companyName: Bede Corp
               contactFirstName: John
               contactLastName: Doe
-              contactEmail: caracolasstore+16@gmail.com
+              contactEmail: caracolasstore+26@gmail.com
               contactPhone: '+1234567890'
               loginUrl: https://app.dgoval.com
   /api/backoffice/clients/{COMPANY_ID}:
@@ -567,6 +567,16 @@ paths:
         - Client management
       security:
         - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+            example:
+              reason: Test
     parameters:
       - name: COMPANY_ID
         in: path
@@ -582,6 +592,19 @@ paths:
         - Client management
       security:
         - BearerAuth: []
+    parameters:
+      - name: COMPANY_ID
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{COMPANY_ID}}'
+  /api/backoffice/clients/{COMPANY_ID}/resend-invite:
+    post:
+      summary: Resend invite
+      responses: {}
+      tags:
+        - Client management
     parameters:
       - name: COMPANY_ID
         in: path
@@ -724,6 +747,29 @@ paths:
                       evidence: Document upload
                       requiredEvidence: true
                       commentRequired: false
+  /api/backoffice/frameworks/{frameworkId}/export:
+    get:
+      summary: export framework
+      responses: {}
+      tags:
+        - Framework management
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: frameworkId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{frameworkId}}'
+  /api/backoffice/frameworks/metrics:
+    get:
+      summary: get framework metrics
+      responses: {}
+      tags:
+        - Framework management
+      security:
+        - BearerAuth: []
   /api/backoffice/frameworks/upload:
     post:
       summary: admin backoffice upload framework
