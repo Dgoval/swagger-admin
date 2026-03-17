@@ -116,6 +116,19 @@ paths:
             example:
               otp: '959102'
               email: caracolasstore@gmail.com
+  /api/backoffice/auth/refresh-token:
+    post:
+      summary: refresh token
+      parameters:
+        - name: x-refresh-token
+          in: header
+          schema:
+            type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMUtLNEFYRFc1VzNFWktTSDZaU01GRkRCQiIsImVtYWlsIjoiY2FyYWNvbGFzc3RvcmVAZ21haWwuY29tIiwiZmlyc3ROYW1lIjoiQ2FyYWNvbGFzIiwibGFzdE5hbWUiOiJTdG9yZSIsImlzQmFja29mZmljZSI6dHJ1ZSwiYmFja29mZmljZVJvbGUiOiJhZG1pbiIsInRva2VuVHlwZSI6InJlZnJlc2giLCJpYXQiOjE3NzM3NDA0NjksImV4cCI6MTc3NDM0NTI2OX0.74f7MKpRMOUMp2Ms1848ZYiF2-dYBehXthQI3svKWho
+      responses: {}
+      tags:
+        - Auth
   /api/backoffice/dashboard:
     get:
       summary: Get Dashboard
@@ -326,6 +339,30 @@ paths:
               email: caracolasstore+15@gmail.com
               role: client_manager
               backofficeLoginUrl: https://app.dgoval.com/login
+  /api/backoffice/users/export:
+    get:
+      summary: export users
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: caracolas
+        - name: role
+          in: query
+          schema:
+            type: string
+          example: admin
+        - name: status
+          in: query
+          schema:
+            type: string
+          example: active
+      responses: {}
+      tags:
+        - User management
+      security:
+        - BearerAuth: []
   /api/backoffice/auth/accept-invite:
     post:
       summary: Accept invite
