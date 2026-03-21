@@ -133,11 +133,11 @@ paths:
     get:
       summary: Get Dashboard
       parameters:
-        - name: 'evaluationsLimit '
+        - name: evaluationsLimit
           in: query
           schema:
             type: integer
-          example: '10'
+          example: '5'
         - name: 'evaluationsPage '
           in: query
           schema:
@@ -540,7 +540,7 @@ paths:
           required: false
           deprecated: false
           schema: {}
-          example: dateAdded
+          example: createdAt
       responses: {}
       tags:
         - Client management
@@ -642,6 +642,8 @@ paths:
       responses: {}
       tags:
         - Client management
+      security:
+        - BearerAuth: []
     parameters:
       - name: COMPANY_ID
         in: path
@@ -652,6 +654,12 @@ paths:
   /api/backoffice/frameworks:
     get:
       summary: List frameworks
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: nccg
       responses: {}
       tags:
         - Framework management
@@ -1090,6 +1098,299 @@ paths:
         schema:
           type: string
         example: '{{templateId}}'
+  /api/backoffice/announcements:
+    post:
+      summary: Create auth announcements
+      responses: {}
+      tags:
+        - Announcement
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companyId:
+                  type: string
+                title:
+                  type: string
+                body:
+                  type: string
+                targetRoles:
+                  type: array
+                  items:
+                    type: string
+                targetSurfaces:
+                  type: array
+                  items:
+                    type: string
+                channels:
+                  type: array
+                  items:
+                    type: string
+                startsAt:
+                  type: string
+                  format: date-time
+                endsAt:
+                  type: string
+                  format: date-time
+                shouldSendEmail:
+                  type: boolean
+            example:
+              companyId: ALL
+              title: System Maintenance Notice
+              body: We will perform maintenance on Saturday at 10 PM.
+              targetRoles:
+                - admin
+                - evaluation_manager
+                - evaluator
+                - reviewer
+                - viewer
+              targetSurfaces:
+                - auth
+              channels:
+                - web
+                - email
+              startsAt: '2026-03-20T09:00:00.000Z'
+              endsAt: '2026-03-25T23:59:59.000Z'
+              shouldSendEmail: true
+    get:
+      summary: List all announcements
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: isActive
+          in: query
+          schema:
+            type: boolean
+          example: 'true'
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: a
+        - name: orgId
+          in: query
+          schema:
+            type: string
+          example: ALL
+      responses: {}
+      tags:
+        - Announcement
+      security:
+        - BearerAuth: []
+  /api/backoffice/announcements/{announcementId}/toggle:
+    patch:
+      summary: toggle announcement
+      responses: {}
+      tags:
+        - Announcement
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: announcementId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{announcementId}}'
+  /api/backoffice/evaluations/companies/{COMPANY_ID}/evaluators:
+    get:
+      summary: list company evaluators
+      responses: {}
+      tags:
+        - Evaluation
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: COMPANY_ID
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{COMPANY_ID}}'
+  /api/backoffice/evaluations:
+    post:
+      summary: Create evaluation on behalf of company
+      responses: {}
+      tags:
+        - Evaluation
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companyId:
+                  type: string
+                evaluatorId:
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+                startDate:
+                  type: string
+                  format: date
+                endDate:
+                  type: string
+                  format: date
+                frameworkIds:
+                  type: array
+                  items:
+                    type: string
+            example:
+              companyId: 01K9DA5HM0406JZ1PP322VA1M8
+              evaluatorId: 01KEA3V726JBMSDT24Y2DS90JV
+              title: Q1 Compliance Evaluation
+              description: Evaluation for Q1 client compliance review
+              startDate: '2026-03-20'
+              endDate: '2026-04-20'
+              frameworkIds:
+                - 01KCA5JYE8WX27V22Y3RQ3A5RP
+                - 01KDQWJDJW748664A25XVPQ46F
+  /api/backoffice/plans:
+    get:
+      summary: list plans
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+      responses: {}
+      tags:
+        - Operations Subscriptions and plans
+      security:
+        - BearerAuth: []
+    post:
+      summary: create plan
+      responses: {}
+      tags:
+        - Operations Subscriptions and plans
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                planName:
+                  type: string
+                code:
+                  type: string
+                amount:
+                  type: integer
+                currency:
+                  type: string
+                interval:
+                  type: string
+                totalEvaluations:
+                  type: integer
+            example:
+              planName: Pro Monthly
+              code: pro-monthly
+              amount: 100000
+              currency: NGN
+              interval: monthly
+              totalEvaluations: 20
+  /api/backoffice/subscriptions:
+    get:
+      summary: list subscriptions
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '20'
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+      responses: {}
+      tags:
+        - Operations Subscriptions and plans
+      security:
+        - BearerAuth: []
+  /api/backoffice/billings:
+    get:
+      summary: list billings
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '20'
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+      responses: {}
+      tags:
+        - Operations Subscriptions and plans
+      security:
+        - BearerAuth: []
+  /api/backoffice/plans/{planId}:
+    get:
+      summary: get plan details
+      responses: {}
+      tags:
+        - Operations Subscriptions and plans
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: planId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{planId}}'
+    patch:
+      summary: Update plan
+      responses: {}
+      tags:
+        - Operations Subscriptions and plans
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                planName:
+                  type: string
+                code:
+                  type: string
+                amount:
+                  type: integer
+                totalEvaluations:
+                  type: integer
+            example:
+              planName: Pro Monthly
+              code: pro-monthly
+              amount: 200000
+              totalEvaluations: 30
 components:
   securitySchemes:
     BearerAuth:
