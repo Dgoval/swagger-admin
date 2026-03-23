@@ -114,7 +114,7 @@ paths:
                   type: string
                   format: email
             example:
-              otp: '959102'
+              otp: '341679'
               email: caracolasstore@gmail.com
   /api/backoffice/auth/refresh-token:
     post:
@@ -792,6 +792,103 @@ paths:
                       evidence: Document upload
                       requiredEvidence: true
                       commentRequired: false
+    patch:
+      summary: Update framework
+      responses: {}
+      tags:
+        - Framework management
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                versionYear:
+                  type: integer
+                sections:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      position:
+                        type: integer
+                      questions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            text:
+                              type: string
+                            statutoryReference:
+                              type: string
+                            evidence:
+                              type: string
+                            requiredEvidence:
+                              type: boolean
+                            commentRequired:
+                              type: boolean
+                            position:
+                              type: integer
+            example:
+              name: Governance Framework 2024
+              description: Annual governance assessment - revised
+              versionYear: 2024
+              sections:
+                - id: 01KKVDHCYB60J81NAR62T4DEMP
+                  title: Section 1
+                  description: Optional section description
+                  position: 1
+                  questions:
+                    - id: 01KKVDHCYN6F1QW4K71RHJ2TRQ
+                      text: Does the company have a code of conduct?
+                      statutoryReference: ISO 37001
+                      evidence: Document upload
+                      requiredEvidence: true
+                      commentRequired: false
+                      position: 1
+                    - id: 01KMDWEB1HVQQ1E95SCNBJ2F01
+                      text: Are conflicts of interest declared and documented?
+                      statutoryReference: CAMA 2020
+                      evidence: Conflict register
+                      requiredEvidence: true
+                      commentRequired: false
+                      position: 2
+                    - text: Is board performance externally evaluated every 2 years?
+                      statutoryReference: NCCG 2018
+                      evidence: External evaluation report
+                      requiredEvidence: true
+                      commentRequired: true
+                      position: 3
+                - title: Section 3 - Compliance Monitoring
+                  description: Regulatory compliance and tracking
+                  position: 2
+                  questions:
+                    - text: Is there a compliance calendar approved by management?
+                      statutoryReference: SEC Code
+                      evidence: Compliance calendar
+                      requiredEvidence: true
+                      commentRequired: false
+                      position: 1
+                    - text: Are compliance breaches escalated to the board?
+                      statutoryReference: NCCG 2018
+                      evidence: Board/committee minutes
+                      requiredEvidence: true
+                      commentRequired: true
+                      position: 2
   /api/backoffice/frameworks/{frameworkId}/export:
     get:
       summary: export framework
@@ -815,6 +912,134 @@ paths:
         - Framework management
       security:
         - BearerAuth: []
+  /api/backoffice/frameworks/{frameworkId}/archive:
+    post:
+      summary: Archive framework
+      responses: {}
+      tags:
+        - Framework management
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                versionYear:
+                  type: integer
+                sections:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      questions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            text:
+                              type: string
+                            statutoryReference:
+                              type: string
+                            evidence:
+                              type: string
+                            requiredEvidence:
+                              type: boolean
+                            commentRequired:
+                              type: boolean
+            example:
+              name: Governance Framework 2024
+              description: Annual governance assessment
+              versionYear: 2024
+              sections:
+                - title: Section 1
+                  description: Optional section description
+                  questions:
+                    - text: Does the company have a code of conduct?
+                      statutoryReference: ISO 37001
+                      evidence: Document upload
+                      requiredEvidence: true
+                      commentRequired: false
+    parameters:
+      - name: frameworkId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{frameworkId}}'
+  /api/backoffice/frameworks/{frameworkId}/enable:
+    post:
+      summary: Enable framework
+      responses: {}
+      tags:
+        - Framework management
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                versionYear:
+                  type: integer
+                sections:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      questions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            text:
+                              type: string
+                            statutoryReference:
+                              type: string
+                            evidence:
+                              type: string
+                            requiredEvidence:
+                              type: boolean
+                            commentRequired:
+                              type: boolean
+            example:
+              name: Governance Framework 2024
+              description: Annual governance assessment
+              versionYear: 2024
+              sections:
+                - title: Section 1
+                  description: Optional section description
+                  questions:
+                    - text: Does the company have a code of conduct?
+                      statutoryReference: ISO 37001
+                      evidence: Document upload
+                      requiredEvidence: true
+                      commentRequired: false
+    parameters:
+      - name: frameworkId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{frameworkId}}'
   /api/backoffice/frameworks/upload:
     post:
       summary: admin backoffice upload framework
