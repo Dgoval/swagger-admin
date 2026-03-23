@@ -1537,6 +1537,95 @@ paths:
               currency: NGN
               interval: monthly
               totalEvaluations: 20
+  /api/backoffice/discounts:
+    get:
+      summary: list discounts
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '20'
+        - name: search
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: PROMO
+        - name: planId
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: 01KM8Q6SYEC4K09QT22KQ9YJJD
+        - name: isActive
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: 'true'
+        - name: sortBy
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: createdAt
+        - name: sortOrder
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: desc
+      responses: {}
+      tags:
+        - Operations Subscriptions and plans
+      security:
+        - BearerAuth: []
+    post:
+      summary: Create discounts
+      responses: {}
+      tags:
+        - Operations Subscriptions and plans
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                planId:
+                  type: string
+                code:
+                  type: string
+                type:
+                  type: string
+                value:
+                  type: integer
+                scope:
+                  type: string
+                startDate:
+                  type: string
+                  format: date
+                expiryDate:
+                  type: string
+                  format: date
+                isActive:
+                  type: boolean
+            example:
+              planId: 01KM8Q6SYEC4K09QT22KQ9YJJD
+              code: PROMO20
+              type: percentage
+              value: 20
+              scope: one_time
+              startDate: '2025-04-01'
+              expiryDate: '2025-12-31'
+              isActive: true
   /api/backoffice/subscriptions:
     get:
       summary: list subscriptions
@@ -1616,6 +1705,61 @@ paths:
               code: pro-monthly
               amount: 200000
               totalEvaluations: 30
+  /api/backoffice/discounts/{discountId}:
+    delete:
+      summary: Delete discount
+      responses: {}
+      tags:
+        - Operations Subscriptions and plans
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: discountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{discountId}}'
+    patch:
+      summary: Update discount
+      responses: {}
+      tags:
+        - Operations Subscriptions and plans
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                planId:
+                  type: string
+                code:
+                  type: string
+                type:
+                  type: string
+                value:
+                  type: integer
+                scope:
+                  type: string
+                startDate:
+                  type: string
+                  format: date
+                expiryDate:
+                  type: string
+                  format: date
+                isActive:
+                  type: boolean
+            example:
+              planId: 01KM8Q6SYEC4K09QT22KQ9YJJD
+              code: PROMO20
+              type: percentage
+              value: 20
+              scope: one_time
+              startDate: '2025-04-01'
+              expiryDate: '2026-04-01'
+              isActive: true
 components:
   securitySchemes:
     BearerAuth:
