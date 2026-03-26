@@ -1445,6 +1445,47 @@ paths:
           type: string
         example: '{{COMPANY_ID}}'
   /api/backoffice/evaluations:
+    post:
+      summary: Create evaluation on behalf of company
+      responses: {}
+      tags:
+        - Evaluation
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companyId:
+                  type: string
+                evaluatorId:
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+                startDate:
+                  type: string
+                  format: date
+                endDate:
+                  type: string
+                  format: date
+                frameworkIds:
+                  type: array
+                  items:
+                    type: string
+            example:
+              companyId: 01K9DA5HM0406JZ1PP322VA1M8
+              evaluatorId: 01KEA3V726JBMSDT24Y2DS90JV
+              title: Q1 Compliance Evaluation
+              description: Evaluation for Q1 client compliance review
+              startDate: '2026-03-20'
+              endDate: '2026-04-20'
+              frameworkIds:
+                - 01KCA5JYE8WX27V22Y3RQ3A5RP
+                - 01KDQWJDJW748664A25XVPQ46F
     get:
       summary: All Company Evaluations
       parameters:
@@ -1487,48 +1528,6 @@ paths:
         - Evaluation
       security:
         - BearerAuth: []
-  /api/backoffice/evaluations:
-    post:
-      summary: Create evaluation on behalf of company
-      responses: {}
-      tags:
-        - Evaluation
-      security:
-        - BearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                companyId:
-                  type: string
-                evaluatorId:
-                  type: string
-                title:
-                  type: string
-                description:
-                  type: string
-                startDate:
-                  type: string
-                  format: date
-                endDate:
-                  type: string
-                  format: date
-                frameworkIds:
-                  type: array
-                  items:
-                    type: string
-            example:
-              companyId: 01K9DA5HM0406JZ1PP322VA1M8
-              evaluatorId: 01KEA3V726JBMSDT24Y2DS90JV
-              title: Q1 Compliance Evaluation
-              description: Evaluation for Q1 client compliance review
-              startDate: '2026-03-20'
-              endDate: '2026-04-20'
-              frameworkIds:
-                - 01KCA5JYE8WX27V22Y3RQ3A5RP
-                - 01KDQWJDJW748664A25XVPQ46F
   /api/backoffice/plans:
     get:
       summary: list plans
