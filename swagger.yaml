@@ -1445,6 +1445,49 @@ paths:
           type: string
         example: '{{COMPANY_ID}}'
   /api/backoffice/evaluations:
+    get:
+      summary: All Company Evaluations
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: a
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          example: createdAt
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+        - name: timeFrame
+          in: query
+          schema:
+            type: string
+          example: 7d
+        - name: status
+          in: query
+          schema:
+            type: string
+          example: active
+      responses: {}
+      tags:
+        - Evaluation
+      security:
+        - BearerAuth: []
+  /api/backoffice/evaluations:
     post:
       summary: Create evaluation on behalf of company
       responses: {}
