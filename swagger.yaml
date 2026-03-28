@@ -1293,6 +1293,21 @@ paths:
         schema:
           type: string
         example: '{{templateId}}'
+  /api/surveys/backoffice/templates/draft/{draftId}/details:
+    get:
+      summary: Preview draft templates
+      responses: {}
+      tags:
+        - Survey template management (Publish to client)
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: draftId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{draftId}}'
   /api/surveys/templates/{templateId}/archive:
     post:
       summary: Deprecate template
@@ -1445,6 +1460,29 @@ paths:
           type: string
         example: '{{COMPANY_ID}}'
   /api/backoffice/evaluations:
+    get:
+      summary: All evaluations for company
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: status
+          in: query
+          schema:
+            type: string
+          example: active
+      responses: {}
+      tags:
+        - Evaluation
+      security:
+        - BearerAuth: []
     post:
       summary: Create evaluation on behalf of company
       responses: {}
@@ -1486,48 +1524,6 @@ paths:
               frameworkIds:
                 - 01KCA5JYE8WX27V22Y3RQ3A5RP
                 - 01KDQWJDJW748664A25XVPQ46F
-    get:
-      summary: All Company Evaluations
-      parameters:
-        - name: limit
-          in: query
-          schema:
-            type: integer
-          example: '10'
-        - name: page
-          in: query
-          schema:
-            type: integer
-          example: '1'
-        - name: search
-          in: query
-          schema:
-            type: string
-          example: a
-        - name: sortBy
-          in: query
-          schema:
-            type: string
-          example: createdAt
-        - name: sortOrder
-          in: query
-          schema:
-            type: string
-        - name: timeFrame
-          in: query
-          schema:
-            type: string
-          example: 7d
-        - name: status
-          in: query
-          schema:
-            type: string
-          example: active
-      responses: {}
-      tags:
-        - Evaluation
-      security:
-        - BearerAuth: []
   /api/backoffice/plans:
     get:
       summary: list plans
@@ -1802,6 +1798,103 @@ paths:
               startDate: '2025-04-01'
               expiryDate: '2026-04-01'
               isActive: true
+  /api/backoffice/audit-logs:
+    get:
+      summary: Get audit
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: search
+          in: query
+          description: >-
+            What search does
+
+            It performs a case-insensitive keyword match across these fields in
+            unified audit events:
+
+            eventId
+
+            source
+
+            description
+
+            userId
+
+            userName
+
+            userEmail
+
+            companyId
+
+            targetId
+
+            targetType
+
+            requestId
+          schema:
+            type: string
+          example: document_audit_logs
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          example: eventTime
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+          example: asc
+      responses: {}
+      tags:
+        - Audit
+      security:
+        - BearerAuth: []
+  /api/backoffice/audit-logs/{eventId}:
+    get:
+      summary: Get audit log details
+      responses: {}
+      tags:
+        - Audit
+      security:
+        - BearerAuth: []
+    parameters:
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{eventId}}'
+  /api/backoffice/audit-logs/export:
+    get:
+      summary: Export audit log
+      parameters:
+        - name: format
+          in: query
+          required: false
+          deprecated: false
+          schema: {}
+          example: csv
+      responses: {}
+      tags:
+        - Audit
+      security:
+        - BearerAuth: []
+  /api/backoffice/audit-logs/users:
+    get:
+      summary: 'Audit Log: User list'
+      responses: {}
+      tags:
+        - Audit
+      security:
+        - BearerAuth: []
 components:
   securitySchemes:
     BearerAuth:
