@@ -772,10 +772,6 @@ paths:
                               type: string
                             evidence:
                               type: string
-                            requiredEvidence:
-                              type: boolean
-                            commentRequired:
-                              type: boolean
             example:
               name: Governance Framework 2024
               description: Annual governance assessment
@@ -787,8 +783,6 @@ paths:
                     - text: Does the company have a code of conduct?
                       statutoryReference: ISO 37001
                       evidence: Document upload
-                      requiredEvidence: true
-                      commentRequired: false
   /api/backoffice/frameworks/{frameworkId}:
     get:
       summary: get framework details
@@ -843,10 +837,6 @@ paths:
                               type: string
                             evidence:
                               type: string
-                            requiredEvidence:
-                              type: boolean
-                            commentRequired:
-                              type: boolean
             example:
               name: Governance Framework 2024
               description: Annual governance assessment
@@ -858,8 +848,6 @@ paths:
                     - text: Does the company have a code of conduct?
                       statutoryReference: ISO 37001
                       evidence: Document upload
-                      requiredEvidence: true
-                      commentRequired: false
     patch:
       summary: Update framework
       responses: {}
