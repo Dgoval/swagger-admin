@@ -2101,6 +2101,31 @@ paths:
         schema:
           type: string
         example: '{{userId}}'
+  /api/backoffice/team/members/{userId}/activate:
+    post:
+      summary: Activate team member
+      responses: {}
+      tags:
+        - Board member and Team members
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companyId:
+                  type: string
+            example:
+              companyId: 01K9DA5HM0406JZ1PP322VA1M8
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{userId}}'
   /api/backoffice/board/members/{memberId}/activate:
     post:
       summary: Activate board member
@@ -2178,7 +2203,7 @@ paths:
                   type: string
             example:
               companyId: 01K9DA5HM0406JZ1PP322VA1M8
-  /api/backoffice/team/members/{memberId}:
+  /api/backoffice/team/members/{userId}:
     put:
       summary: Update team member
       responses: {}
@@ -2210,7 +2235,7 @@ paths:
               email: caracolasstore+15@gmail.com
               role: admin
     parameters:
-      - name: memberId
+      - name: userId
         in: path
         required: true
         schema:
