@@ -621,7 +621,7 @@ paths:
             example:
               primaryHex: '#003366'
               secondaryHex: '#00AEEF'
-              ifMatchRevisionId: 01KAV3KX2YDWSKC0YD2FFGQ5B8
+              ifMatchRevisionId: 01KN3C61S65BX6GKZ0K55VFNA0
     parameters:
       - name: COMPANY_ID
         in: path
@@ -837,6 +837,10 @@ paths:
                               type: string
                             evidence:
                               type: string
+                            requiredEvidence:
+                              type: boolean
+                            commentRequired:
+                              type: boolean
             example:
               name: Governance Framework 2024
               description: Annual governance assessment
@@ -848,6 +852,8 @@ paths:
                     - text: Does the company have a code of conduct?
                       statutoryReference: ISO 37001
                       evidence: Document upload
+                      requiredEvidence: true
+                      commentRequired: false
     patch:
       summary: Update framework
       responses: {}
@@ -2045,6 +2051,81 @@ paths:
               position: Non-Executive Director
               category: Non-Executive
               committee: Audit Committee
+  /api/backoffice/board/members/{memberId}/deactivate:
+    post:
+      summary: Deactivate board member
+      responses: {}
+      tags:
+        - Board member and Team members
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companyId:
+                  type: string
+            example:
+              companyId: 01K9DA5HM0406JZ1PP322VA1M8
+    parameters:
+      - name: memberId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{memberId}}'
+  /api/backoffice/team/members/{userId}/deactivate:
+    post:
+      summary: Deactivate team member
+      responses: {}
+      tags:
+        - Board member and Team members
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companyId:
+                  type: string
+            example:
+              companyId: 01K9DA5HM0406JZ1PP322VA1M8
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{userId}}'
+  /api/backoffice/board/members/{memberId}/activate:
+    post:
+      summary: Activate board member
+      responses: {}
+      tags:
+        - Board member and Team members
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companyId:
+                  type: string
+            example:
+              companyId: 01K9DA5HM0406JZ1PP322VA1M8
+    parameters:
+      - name: memberId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{memberId}}'
   /api/backoffice/board/members/{memberId}:
     put:
       summary: Update board member
@@ -2134,7 +2215,7 @@ paths:
         required: true
         schema:
           type: string
-        example: '{{memberId}}'
+        example: '{{userId}}'
     delete:
       summary: Delete team member
       responses: {}
