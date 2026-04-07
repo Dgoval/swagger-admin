@@ -1506,6 +1506,14 @@ paths:
         schema:
           type: string
         example: '{{announcementId}}'
+  /api/companies/logo/upload:
+    post:
+      summary: Upload image
+      responses: {}
+      tags:
+        - Announcement
+      security:
+        - BearerAuth: []
   /api/backoffice/evaluations/companies/{COMPANY_ID}/evaluators:
     get:
       summary: list company evaluators
@@ -1594,10 +1602,10 @@ paths:
             example:
               companyId: 01K9DA5HM0406JZ1PP322VA1M8
               evaluatorId: 01KEA3V726JBMSDT24Y2DS90JV
-              title: Q1 Compliance Evaluation
+              title: New Compliance Evaluation
               description: Evaluation for Q1 client compliance review
-              startDate: '2026-03-20'
-              endDate: '2026-04-20'
+              startDate: '2026-04-20'
+              endDate: '2026-05-20'
               frameworkIds:
                 - 01KCA5JYE8WX27V22Y3RQ3A5RP
                 - 01KDQWJDJW748664A25XVPQ46F
@@ -1931,6 +1939,25 @@ paths:
           schema:
             type: string
           example: asc
+      responses: {}
+      tags:
+        - Audit
+      security:
+        - BearerAuth: []
+  /api/backoffice/audit-logs/backoffice:
+    get:
+      summary: get backoffice users audit
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
       responses: {}
       tags:
         - Audit
